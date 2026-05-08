@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MStopografia — Field to Finish Automation</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:    #0a1628;
+  --navy2:   #0f2040;
+  --blue:    #1a4a8a;
+  --blue2:   #2563eb;
+  --blue3:   #3b82f6;
+  --sky:     #e8f0fe;
+  --sky2:    #dbeafe;
+  --white:   #ffffff;
+  --text:    #0f172a;
+  --muted:   #64748b;
+  --border:  #cbd5e1;
+  --border2: #e2e8f0;
+  --success: #059669;
+  --mono:    'JetBrains Mono', monospace;
+  --sans:    'Plus Jakarta Sans', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.6; min-height: 100vh; }
+nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; height: 64px; background: rgba(255,255,255,0.95); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border2); box-shadow: 0 1px 12px rgba(10,22,40,0.06); }
+.logo { font-family: var(--mono); font-size: 1.05rem; font-weight: 500; letter-spacing: 0.02em; color: var(--navy); display: flex; align-items: center; gap: 0.5rem; }
+.logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue2); }
+.logo em { font-style: normal; color: var(--blue2); }
+nav ul { list-style: none; display: flex; gap: 2rem; }
+nav ul a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color .2s; }
+nav ul a:hover { color: var(--blue2); }
+.nav-right { display: flex; align-items: center; gap: 0.75rem; }
+.lang-btn { background: var(--sky); color: var(--blue2); border: 1px solid var(--border2); cursor: pointer; padding: 0.35rem 0.75rem; border-radius: 6px; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; transition: all .2s; }
+.lang-btn:hover { background: var(--sky2); border-color: var(--blue2); }
+.nav-cta { background: var(--blue2); color: #fff; border: none; cursor: pointer; padding: 0.5rem 1.25rem; border-radius: 6px; font-family: var(--sans); font-size: 0.875rem; font-weight: 600; transition: all .2s; box-shadow: 0 2px 8px rgba(37,99,235,0.3); }
+.nav-cta:hover { background: var(--blue); transform: translateY(-1px); }
+.hero-wrap { background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 40%, var(--blue) 100%); padding: 7rem 2rem 5rem; text-align: center; position: relative; overflow: hidden; }
+.hero-wrap::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(59,130,246,0.15) 0%, transparent 60%), radial-gradient(ellipse at 70% 20%, rgba(37,99,235,0.1) 0%, transparent 50%); }
+.hero-grid { position: absolute; inset: 0; opacity: 0.04; background-image: linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px); background-size: 48px 48px; }
+.hero-content { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; }
+.hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue3); border: 1px solid rgba(59,130,246,0.4); background: rgba(59,130,246,0.1); padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 2rem; }
+.hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue3); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+h1 { font-size: clamp(2.2rem, 5.5vw, 3.8rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; color: var(--white); margin-bottom: 1.5rem; }
+h1 em { font-style: normal; color: var(--blue3); }
+.hero-sub { color: rgba(255,255,255,0.65); font-size: 1.1rem; max-width: 500px; margin: 0 auto 2.5rem; }
+.hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn-primary { background: var(--blue2); color: #fff; border: none; cursor: pointer; padding: 0.85rem 2rem; border-radius: 8px; font-family: var(--sans); font-size: 0.9rem; font-weight: 700; transition: all .2s; box-shadow: 0 4px 20px rgba(37,99,235,0.4); }
+.btn-primary:hover { background: #1d4ed8; transform: translateY(-2px); }
+.btn-ghost { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.2); cursor: pointer; padding: 0.85rem 2rem; border-radius: 8px; font-family: var(--sans); font-size: 0.9rem; font-weight: 500; transition: all .2s; }
+.btn-ghost:hover { background: rgba(255,255,255,0.18); }
+.hero-stats { display: flex; justify-content: center; gap: 3rem; margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
+.hero-stat { text-align: center; }
+.hero-stat-val { font-family: var(--mono); font-size: 1.6rem; font-weight: 700; color: var(--white); }
+.hero-stat-lbl { font-size: 0.75rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.2rem; }
+.app-wrap { max-width: 900px; margin: -2.5rem auto 0; padding: 0 2rem 4rem; position: relative; z-index: 10; }
+.app-card { background: var(--white); border: 1px solid var(--border2); border-radius: 16px; overflow: hidden; box-shadow: 0 24px 80px rgba(10,22,40,0.14), 0 4px 24px rgba(10,22,40,0.08); }
+.app-bar { display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border2); background: var(--sky); }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.r { background: #f87171; } .dot.y { background: #fbbf24; } .dot.g { background: #34d399; }
+.app-url { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); margin-left: 8px; background: var(--white); border: 1px solid var(--border); padding: 0.2rem 0.75rem; border-radius: 4px; }
+.upload-area { padding: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; align-items: start; }
+@media (max-width: 650px) { .upload-area { grid-template-columns: 1fr; } }
+.input-tabs { display: flex; gap: 0; margin-bottom: 0.75rem; background: var(--sky); border: 1px solid var(--border2); border-radius: 8px; padding: 3px; }
+.tab-btn { flex: 1; background: transparent; border: none; color: var(--muted); font-family: var(--sans); font-size: 0.82rem; font-weight: 500; padding: 0.45rem 0.75rem; border-radius: 6px; cursor: pointer; transition: all .2s; }
+.tab-btn.active { background: var(--white); color: var(--blue2); font-weight: 600; box-shadow: 0 1px 4px rgba(10,22,40,0.1); }
+.drop-zone { border: 2px dashed var(--border); border-radius: 10px; padding: 2.5rem 1.5rem; text-align: center; cursor: pointer; transition: all .2s; position: relative; background: var(--sky); }
+.drop-zone:hover { border-color: var(--blue2); background: var(--sky2); }
+.drop-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.drop-icon { font-size: 2.2rem; margin-bottom: 0.75rem; display: block; }
+.drop-zone p { color: var(--muted); font-size: 0.85rem; }
+.drop-zone strong { color: var(--text); font-weight: 600; }
+.format-selector { background: var(--sky); border: 1px solid var(--border2); border-radius: 8px; padding: 0.9rem 1rem; margin-bottom: 0.75rem; }
+.format-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); display: block; margin-bottom: 0.6rem; }
+.format-options { display: flex; flex-direction: column; gap: 0.4rem; }
+.fmt-opt { display: flex; align-items: center; gap: 0.6rem; cursor: pointer; padding: 0.4rem 0.5rem; border-radius: 6px; transition: background .15s; }
+.fmt-opt:hover { background: var(--sky2); }
+.fmt-opt input[type=radio] { accent-color: var(--blue2); width: 14px; height: 14px; flex-shrink: 0; }
+.fmt-opt input[type=radio]:checked ~ .fmt-badge { background: var(--blue2); color: #fff; border-color: var(--blue2); }
+.fmt-badge { font-family: var(--mono); font-size: 0.72rem; font-weight: 600; background: var(--white); color: var(--blue2); border: 1px solid var(--border2); padding: 0.15rem 0.5rem; border-radius: 4px; white-space: nowrap; transition: all .15s; }
+.fmt-desc { font-size: 0.75rem; color: var(--muted); }
+.file-info { font-family: var(--mono); font-size: 0.78rem; color: var(--success); margin-top: 0.5rem; min-height: 1.2rem; font-weight: 500; }
+#pasteArea { width: 100%; height: 165px; background: var(--sky); border: 2px dashed var(--border); border-radius: 10px; color: var(--text); font-family: var(--mono); font-size: 0.76rem; padding: 1rem; resize: none; outline: none; line-height: 1.7; transition: border-color .2s; display: block; }
+#pasteArea:focus { border-color: var(--blue2); background: var(--sky2); }
+.config-panel { background: var(--sky); border: 1px solid var(--border2); border-radius: 10px; padding: 1.25rem; }
+.config-panel h3 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+.config-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border2); font-size: 0.84rem; }
+.config-row:last-of-type { border-bottom: none; }
+.config-row label { color: var(--text); font-weight: 500; }
+.config-row input[type=number] { background: var(--white); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.8rem; padding: 0.3rem 0.6rem; border-radius: 5px; width: 75px; outline: none; transition: border-color .2s; }
+.config-row input[type=number]:focus { border-color: var(--blue2); }
+.toggle { position: relative; width: 38px; height: 21px; display: inline-block; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; inset: 0; background: var(--border); border-radius: 21px; cursor: pointer; transition: .25s; }
+.slider::before { content: ''; position: absolute; width: 15px; height: 15px; border-radius: 50%; left: 3px; bottom: 3px; background: #fff; transition: .25s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+.toggle input:checked + .slider { background: var(--blue2); }
+.toggle input:checked + .slider::before { transform: translateX(17px); }
+.generate-btn { display: block; width: 100%; background: var(--blue2); color: #fff; border: none; cursor: pointer; padding: 0.8rem; border-radius: 8px; margin-top: 1rem; font-family: var(--sans); font-size: 0.9rem; font-weight: 700; transition: all .2s; box-shadow: 0 2px 10px rgba(37,99,235,0.3); }
+.generate-btn:hover { background: #1d4ed8; }
+.generate-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; box-shadow: none; }
+.preview-wrap { padding: 0 2rem 1.5rem; display: none; }
+.preview-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+.preview-header h4 { font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--blue2); font-weight: 600; }
+.preview-badge { font-family: var(--mono); font-size: 0.65rem; background: var(--sky2); color: var(--blue2); padding: 0.15rem 0.5rem; border-radius: 3px; border: 1px solid rgba(37,99,235,0.2); }
+#previewCanvas { width: 100%; border: 1px solid var(--border2); border-radius: 8px; background: var(--navy); display: block; }
+.preview-legend { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.65rem; }
+.legend-item { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); display: flex; align-items: center; gap: 0.3rem; background: var(--sky); padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid var(--border2); }
+.legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.progress-wrap { padding: 0 2rem 2rem; display: none; }
+.progress-bar { height: 4px; background: var(--border2); border-radius: 4px; overflow: hidden; margin-bottom: 0.6rem; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--blue2), var(--blue3)); width: 0%; transition: width .4s ease; border-radius: 4px; }
+.progress-log { font-family: var(--mono); font-size: 0.73rem; color: var(--muted); min-height: 1rem; }
+.result-wrap { padding: 1rem 2rem 2rem; display: none; }
+.result-header { display: flex; align-items: center; gap: 0.75rem; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+.result-icon { font-size: 1.5rem; }
+.result-header p { font-size: 0.9rem; font-weight: 600; color: #065f46; }
+.result-header span { font-size: 0.8rem; color: #047857; }
+.result-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.download-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--blue2); color: #fff; text-decoration: none; padding: 0.7rem 1.5rem; border-radius: 8px; font-family: var(--sans); font-size: 0.875rem; font-weight: 700; transition: all .2s; border: none; cursor: pointer; box-shadow: 0 2px 10px rgba(37,99,235,0.3); }
+.download-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
+.report-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--white); color: var(--text); border: 1px solid var(--border); padding: 0.7rem 1.5rem; border-radius: 8px; font-family: var(--sans); font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+.report-btn:hover { border-color: var(--blue2); color: var(--blue2); }
+.stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.75rem; }
+.stat { background: var(--sky); border: 1px solid var(--border2); border-radius: 8px; padding: 1rem; text-align: center; }
+.stat-val { font-family: var(--mono); font-size: 1.6rem; font-weight: 700; color: var(--blue2); }
+.stat-lbl { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+.how-section { background: var(--sky); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); }
+section { max-width: 860px; margin: 0 auto; padding: 5rem 2rem; }
+.section-label { font-family: var(--mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--blue2); margin-bottom: 0.75rem; display: block; font-weight: 600; }
+.section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; color: var(--navy); margin-bottom: 0.5rem; }
+.section-sub { color: var(--muted); margin-bottom: 3rem; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+@media (max-width: 620px) { .steps { grid-template-columns: 1fr; } }
+.step { background: var(--white); border: 1px solid var(--border2); border-radius: 12px; padding: 1.75rem; transition: box-shadow .2s, transform .2s; }
+.step:hover { box-shadow: 0 8px 30px rgba(10,22,40,0.1); transform: translateY(-2px); }
+.step-num { font-family: var(--mono); font-size: 0.7rem; color: var(--blue2); margin-bottom: 1rem; font-weight: 600; letter-spacing: 0.1em; background: var(--sky2); display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px; }
+.step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--navy); }
+.step p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+.step-icon { font-size: 1.75rem; margin-bottom: 0.75rem; display: block; }
+#precos h2, #faq h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; color: var(--navy); margin-bottom: 0.5rem; }
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+@media (max-width: 720px) { .plans { grid-template-columns: 1fr; } }
+.plan { background: var(--white); border: 1.5px solid var(--border2); border-radius: 14px; padding: 2rem; position: relative; transition: all .2s; }
+.plan:hover { box-shadow: 0 12px 40px rgba(10,22,40,0.1); transform: translateY(-2px); }
+.plan.featured { border-color: var(--blue2); background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%); box-shadow: 0 12px 40px rgba(37,99,235,0.25); }
+.plan-badge { position: absolute; top: -11px; left: 1.5rem; background: var(--blue2); color: #fff; font-family: var(--mono); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.75rem; border-radius: 100px; }
+.plan-name { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.75rem; }
+.plan.featured .plan-name { color: rgba(255,255,255,0.55); }
+.plan-price { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em; color: var(--navy); margin-bottom: 0.2rem; }
+.plan.featured .plan-price { color: var(--white); }
+.plan-price span { font-size: 0.85rem; font-weight: 400; color: var(--muted); }
+.plan.featured .plan-price span { color: rgba(255,255,255,0.5); }
+.plan-desc { color: var(--muted); font-size: 0.82rem; margin-bottom: 1.5rem; font-weight: 500; }
+.plan.featured .plan-desc { color: rgba(255,255,255,0.6); }
+.plan-features { list-style: none; margin-bottom: 1.75rem; }
+.plan-features li { font-size: 0.84rem; padding: 0.45rem 0; border-bottom: 1px solid var(--border2); display: flex; align-items: center; gap: 0.6rem; color: var(--text); font-weight: 500; }
+.plan.featured .plan-features li { border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); }
+.plan-features li:last-child { border-bottom: none; }
+.plan-features li::before { content: ''; width: 16px; height: 16px; border-radius: 50%; background: var(--sky2); border: 2px solid var(--blue2); flex-shrink: 0; }
+.plan-features li.no::before { background: var(--border2); border-color: var(--border); }
+.plan-features li.no { color: var(--muted); }
+.plan.featured .plan-features li.no { color: rgba(255,255,255,0.3); }
+.plan-btn { display: block; width: 100%; padding: 0.75rem; border-radius: 8px; font-family: var(--sans); font-size: 0.875rem; font-weight: 700; cursor: pointer; transition: all .2s; text-align: center; border: none; }
+.plan-btn.primary { background: var(--blue2); color: #fff; box-shadow: 0 2px 10px rgba(37,99,235,0.35); }
+.plan-btn.primary:hover { background: #1d4ed8; }
+.plan-btn.ghost { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+.plan-btn.ghost:hover { border-color: var(--blue2); color: var(--blue2); }
+.plan-btn.ghost-white { background: transparent; color: rgba(255,255,255,0.9); border: 1.5px solid rgba(255,255,255,0.25); }
+.plan-btn.ghost-white:hover { background: rgba(255,255,255,0.1); }
+#faq { border-top: 1px solid var(--border2); }
+#faq h2 { margin-bottom: 2rem; }
+.faq-item { border-bottom: 1px solid var(--border2); padding: 1.1rem 0; cursor: pointer; }
+.faq-q { display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 0.9rem; color: var(--text); gap: 1rem; }
+.faq-icon { width: 22px; height: 22px; border-radius: 50%; background: var(--sky); border: 1.5px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: var(--blue2); transition: all .2s; flex-shrink: 0; font-style: normal; }
+.faq-item.open .faq-icon { background: var(--blue2); color: #fff; transform: rotate(45deg); }
+.faq-a { color: var(--muted); font-size: 0.85rem; max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s; line-height: 1.7; }
+.faq-item.open .faq-a { max-height: 200px; padding-top: 0.75rem; }
+footer { background: var(--navy); padding: 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-logo { font-family: var(--mono); font-size: 0.9rem; color: rgba(255,255,255,0.7); }
+.footer-logo em { font-style: normal; color: var(--blue3); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.8rem; transition: color .2s; }
+.footer-links a:hover { color: rgba(255,255,255,0.8); }
+.footer-copy { color: rgba(255,255,255,0.35); font-size: 0.78rem; }
+.modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(10,22,40,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .2s; backdrop-filter: blur(4px); }
+.modal-overlay.show { opacity: 1; pointer-events: all; }
+.modal { background: var(--white); border: 1px solid var(--border2); border-radius: 16px; padding: 2rem; width: 90%; max-width: 420px; transform: translateY(12px); transition: transform .2s; box-shadow: 0 24px 60px rgba(10,22,40,0.2); }
+.modal-overlay.show .modal { transform: translateY(0); }
+.modal h2 { font-size: 1.25rem; font-weight: 800; color: var(--navy); margin-bottom: 0.4rem; }
+.modal p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+.modal input { display: block; width: 100%; background: var(--sky); border: 1.5px solid var(--border2); color: var(--text); font-family: var(--sans); font-size: 0.875rem; padding: 0.7rem 1rem; border-radius: 8px; margin-bottom: 0.75rem; outline: none; transition: border-color .2s; }
+.modal input:focus { border-color: var(--blue2); background: var(--white); }
+.modal-actions { display: flex; gap: 0.75rem; margin-top: 1rem; }
+.modal-actions .btn-primary { flex: 1; padding: 0.7rem; font-size: 0.875rem; border-radius: 8px; }
+.modal-close { float: right; background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1.3rem; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background .2s; }
+.modal-close:hover { background: var(--sky); }
+.btn-ghost-dark { padding: 0.7rem 1.25rem; font-size: 0.875rem; border-radius: 8px; background: transparent; color: var(--muted); border: 1.5px solid var(--border); cursor: pointer; font-weight: 600; transition: all .2s; font-family: var(--sans); }
+.btn-ghost-dark:hover { border-color: var(--text); color: var(--text); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span class="logo-dot"></span><em>MS</em>TOPOGRAFIA</div>
+  <ul>
+    <li><a href="#how-it-works" data-i18n="nav.how">How it works</a></li>
+    <li><a href="#pricing" data-i18n="nav.pricing">Pricing</a></li>
+    <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">PT</button>
+    <button class="nav-cta" onclick="openModal('signup')" data-i18n="nav.signup">Sign up</button>
+  </div>
+</nav>
+
+<div class="hero-wrap">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span><span data-i18n="hero.badge">Field to Finish Automation</span></div>
+    <h1><span data-i18n="hero.h1a">From survey to</span><br><em data-i18n="hero.h1b">DXF ready</em><br><span data-i18n="hero.h1c">in seconds</span></h1>
+    <p class="hero-sub" data-i18n="hero.sub">Upload your TXT point file, configure your codes once, and download a complete DXF with layers, symbols and contour lines.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('dropZone').click()" data-i18n="hero.cta1">&#9654; Try for free</button>
+      <button class="btn-ghost" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})" data-i18n="hero.cta2">See how it works</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-val">45+</div><div class="hero-stat-lbl" data-i18n="hero.stat1">Supported codes</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">DXF</div><div class="hero-stat-lbl" data-i18n="hero.stat2">R2010 compatible</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">100%</div><div class="hero-stat-lbl" data-i18n="hero.stat3">Processed locally</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="app-wrap">
+  <div class="app-card">
+    <div class="app-bar">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+      <span class="app-url">mstopografia.app &mdash; <span data-i18n="app.title">Generate DXF</span></span>
+    </div>
+    <div class="upload-area">
+      <div>
+        <div class="input-tabs">
+          <button class="tab-btn active" id="tabFile" onclick="switchTab('file')" data-i18n="app.tab1">&#128193; TXT File</button>
+          <button class="tab-btn" id="tabPaste" onclick="switchTab('paste')" data-i18n="app.tab2">&#128203; Paste text</button>
+        </div>
+        <!-- FORMAT SELECTOR -->
+        <div class="format-selector" id="formatSelector">
+          <label class="format-label" data-i18n="fmt.label">Column order</label>
+          <div class="format-options">
+            <label class="fmt-opt">
+              <input type="radio" name="colFormat" value="PXYZC" checked>
+              <span class="fmt-badge">P, X, Y, Z, Code</span>
+              <span class="fmt-desc" data-i18n="fmt.pxyz">East · North (most common)</span>
+            </label>
+            <label class="fmt-opt">
+              <input type="radio" name="colFormat" value="PNEZC">
+              <span class="fmt-badge">P, N, E, Z, Code</span>
+              <span class="fmt-desc" data-i18n="fmt.pnez">North · East (Trimble / some Leica)</span>
+            </label>
+            <label class="fmt-opt">
+              <input type="radio" name="colFormat" value="PENZC">
+              <span class="fmt-badge">P, E, N, Z, Code</span>
+              <span class="fmt-desc" data-i18n="fmt.penz">East · North explicit</span>
+            </label>
+            <label class="fmt-opt">
+              <input type="radio" name="colFormat" value="PZXYC">
+              <span class="fmt-badge">P, Z, X, Y, Code</span>
+              <span class="fmt-desc" data-i18n="fmt.pzxy">Elevation first (some older formats)</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="panelFile">
+          <div class="drop-zone" id="dropZone">
+            <input type="file" accept=".txt,.csv" id="fileInput" onchange="handleFile(this)">
+            <span class="drop-icon">&#128193;</span>
+            <p><strong data-i18n="app.drop1">Drag your TXT file</strong><br><span data-i18n="app.drop2">or click to select</span></p>
+          </div>
+          <div class="file-info" id="fileInfo"></div>
+        </div>
+        <div id="panelPaste" style="display:none">
+          <textarea id="pasteArea" data-i18n-placeholder="app.paste"></textarea>
+          <div class="file-info" id="pasteInfo"></div>
+        </div>
+      </div>
+      <div class="config-panel">
+        <h3 data-i18n="cfg.title">Settings</h3>
+        <div class="config-row"><label data-i18n="cfg.interval">Contour interval (m)</label><input type="number" value="1.0" step="0.5" min="0.5" id="cfgInterval"></div>
+        <div class="config-row"><label data-i18n="cfg.major">Major contours (m)</label><input type="number" value="5.0" step="1" min="1" id="cfgMaster"></div>
+        <div class="config-row"><label data-i18n="cfg.contours">Contour lines</label><label class="toggle"><input type="checkbox" checked id="cfgContours"><span class="slider"></span></label></div>
+        <div class="config-row"><label data-i18n="cfg.preview">Preview</label><label class="toggle"><input type="checkbox" checked id="cfgPreview"><span class="slider"></span></label></div>
+        <div class="config-row"><label data-i18n="cfg.numbers">Point numbers</label><label class="toggle"><input type="checkbox" checked id="cfgNumbers"><span class="slider"></span></label></div>
+        <div class="config-row"><label data-i18n="cfg.symbols">Symbols</label><label class="toggle"><input type="checkbox" checked id="cfgSymbols"><span class="slider"></span></label></div>
+        <button class="generate-btn" id="generateBtn" onclick="gerarDXF()" disabled data-i18n="cfg.btn">Generate DXF &rarr;</button>
+      </div>
+    </div>
+    <div class="preview-wrap" id="previewWrap">
+      <div class="preview-header">
+        <h4 data-i18n="prev.title">Preview</h4>
+        <span class="preview-badge" id="previewBadge">0 points</span>
+      </div>
+      <canvas id="previewCanvas" height="280"></canvas>
+      <div class="preview-legend" id="previewLegend"></div>
+    </div>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-log" id="progressLog"></div>
+    </div>
+    <div class="result-wrap" id="resultWrap">
+      <div class="result-header">
+        <span class="result-icon">&#9989;</span>
+        <div>
+          <p id="resultMsg"></p>
+          <span data-i18n="res.sub">Ready to open in AutoCAD, Civil 3D or BricsCAD</span>
+        </div>
+      </div>
+      <div class="result-btns">
+        <button class="download-btn" onclick="downloadFicheiro('dxf')" data-i18n="res.dxf">&#11015; Download DXF</button>
+        <button class="report-btn" onclick="downloadFicheiro('relatorio')" data-i18n="res.report">&#128196; Report TXT</button>
+      </div>
+      <div class="stats-grid" id="statsGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="how-section">
+  <section id="how-it-works">
+    <span class="section-label" data-i18n="how.label">// How it works</span>
+    <h2 class="section-title" data-i18n="how.title">Three steps. Instant results.</h2>
+    <p class="section-sub" data-i18n="how.sub">No installs, no servers, no complications.</p>
+    <div class="steps">
+      <div class="step"><span class="step-icon">&#128228;</span><span class="step-num">01</span><h3 data-i18n="how.s1t">Upload the file</h3><p data-i18n="how.s1d">Export points from your total station or GPS in P,X,Y,Z,Code format. Drag and drop or paste directly.</p></div>
+      <div class="step"><span class="step-icon">&#9881;</span><span class="step-num">02</span><h3 data-i18n="how.s2t">Preview and configure</h3><p data-i18n="how.s2d">See your points on screen before generating. Adjust contour interval, symbols and numbering.</p></div>
+      <div class="step"><span class="step-icon">&#11015;</span><span class="step-num">03</span><h3 data-i18n="how.s3t">Download DXF + Report</h3><p data-i18n="how.s3d">Full DXF with layers, contour lines and symbology. Detailed report with all points.</p></div>
+    </div>
+  </section>
+</div>
+
+<section id="pricing">
+  <span class="section-label" data-i18n="price.label">// Pricing</span>
+  <h2 data-i18n="price.title">Simple and transparent</h2>
+  <p class="section-sub" data-i18n="price.sub">No surprises. Cancel anytime.</p>
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-name" data-i18n="plan1.name">Free</div>
+      <div class="plan-price">&#8364;0 <span data-i18n="plan.mo">/ month</span></div>
+      <div class="plan-desc" data-i18n="plan1.desc">To get started</div>
+      <ul class="plan-features">
+        <li data-i18n="plan1.f1">3 files per month</li>
+        <li data-i18n="plan1.f2">Up to 500 points</li>
+        <li data-i18n="plan1.f3">Predefined codes</li>
+        <li class="no" data-i18n="plan1.f4">Custom codes</li>
+        <li class="no" data-i18n="plan1.f5">Detailed report</li>
+      </ul>
+      <button class="plan-btn ghost" onclick="openModal('signup')" data-i18n="plan1.btn">Get started free</button>
+    </div>
+    <div class="plan featured">
+      <div class="plan-badge" data-i18n="plan2.badge">Popular</div>
+      <div class="plan-name" data-i18n="plan2.name">Pro</div>
+      <div class="plan-price">&#8364;29 <span data-i18n="plan.mo">/ month</span></div>
+      <div class="plan-desc" data-i18n="plan2.desc">For individual surveyors</div>
+      <ul class="plan-features">
+        <li data-i18n="plan2.f1">Unlimited files</li>
+        <li data-i18n="plan2.f2">Unlimited points</li>
+        <li data-i18n="plan2.f3">Custom codes</li>
+        <li data-i18n="plan2.f4">Batch export</li>
+        <li data-i18n="plan2.f5">Detailed report</li>
+      </ul>
+      <button class="plan-btn primary" onclick="openModal('signup')" data-i18n="plan2.btn">Subscribe Pro</button>
+    </div>
+    <div class="plan">
+      <div class="plan-name" data-i18n="plan3.name">Enterprise</div>
+      <div class="plan-price">&#8364;79 <span data-i18n="plan.mo">/ month</span></div>
+      <div class="plan-desc" data-i18n="plan3.desc">For offices and teams</div>
+      <ul class="plan-features">
+        <li data-i18n="plan3.f1">Everything in Pro</li>
+        <li data-i18n="plan3.f2">Up to 5 users</li>
+        <li data-i18n="plan3.f3">Shared templates</li>
+        <li data-i18n="plan3.f4">Integration API</li>
+        <li data-i18n="plan3.f5">Priority support</li>
+      </ul>
+      <button class="plan-btn ghost" onclick="openModal('contact')" data-i18n="plan3.btn">Contact us</button>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <span class="section-label">// FAQ</span>
+  <h2 data-i18n="faq.title">FAQ</h2>
+  <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span data-i18n="faq.q1">What file format should I use?</span><em class="faq-icon">+</em></div><div class="faq-a" data-i18n="faq.a1">The standard format is P,X,Y,Z,Code — one point per line. Comma or semicolon separator. Compatible with exports from most total stations and field software.</div></div>
+  <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span data-i18n="faq.q2">Can I use my own codes?</span><em class="faq-icon">+</em></div><div class="faq-a" data-i18n="faq.a2">Yes, on the Pro and Enterprise plans you can fully define your code table — name, type (line/symbol), layer, color and connection rules.</div></div>
+  <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span data-i18n="faq.q3">Is the generated DXF compatible with Civil 3D?</span><em class="faq-icon">+</em></div><div class="faq-a" data-i18n="faq.a3">Yes. The generated file is DXF R2010, compatible with AutoCAD, Civil 3D, BricsCAD and any software that reads DXF/DWG.</div></div>
+  <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span data-i18n="faq.q4">Is it possible to generate DWG?</span><em class="faq-icon">+</em></div><div class="faq-a" data-i18n="faq.a4">DWG is a proprietary Autodesk format. We generate DXF R2010 which AutoCAD opens and saves as DWG natively — the result is equivalent.</div></div>
+  <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span data-i18n="faq.q5">Is my data stored on your servers?</span><em class="faq-icon">+</em></div><div class="faq-a" data-i18n="faq.a5">No. Everything runs locally in your browser — no files are sent to any server. Complete privacy for your survey data.</div></div>
+  <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><span data-i18n="faq.q6">Can I cancel at any time?</span><em class="faq-icon">+</em></div><div class="faq-a" data-i18n="faq.a6">Yes, no contracts or commitments. Cancel in your account settings and access continues until the end of the paid period.</div></div>
+</section>
+
+<footer>
+  <div class="footer-logo"><em>MS</em>TOPOGRAFIA &mdash; Field to Finish</div>
+  <div class="footer-copy">&#169; 2026 MStopografia &middot; Made in Portugal</div>
+  <div class="footer-links">
+    <a href="#" data-i18n="footer.terms">Terms</a>
+    <a href="#" data-i18n="footer.privacy">Privacy</a>
+    <a href="#" data-i18n="footer.contact">Contact</a>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&#215;</button>
+    <h2 id="modalTitle"></h2>
+    <p id="modalDesc"></p>
+    <input type="text" id="mName" data-i18n-placeholder="modal.name">
+    <input type="email" id="mEmail" data-i18n-placeholder="modal.email">
+    <input type="password" id="mPass" data-i18n-placeholder="modal.pass">
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="submitModal()" data-i18n="modal.continue">Continue</button>
+      <button class="btn-ghost-dark" onclick="closeModal()" data-i18n="modal.cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// TRANSLATIONS
+// ═══════════════════════════════════════════
+var LANGS = {
+  en: {
+    'nav.how': 'How it works', 'nav.pricing': 'Pricing', 'nav.faq': 'FAQ', 'nav.signup': 'Sign up',
+    'hero.badge': 'Field to Finish Automation',
+    'hero.h1a': 'From survey to', 'hero.h1b': 'DXF ready', 'hero.h1c': 'in seconds',
+    'hero.sub': 'Upload your TXT point file, configure your codes once, and download a complete DXF with layers, symbols and contour lines.',
+    'hero.cta1': '&#9654; Try for free', 'hero.cta2': 'See how it works',
+    'hero.stat1': 'Supported codes', 'hero.stat2': 'R2010 compatible', 'hero.stat3': 'Processed locally',
+    'app.title': 'Generate DXF', 'app.tab1': '&#128193; TXT File', 'app.tab2': '&#128203; Paste text',
+    'app.drop1': 'Drag your TXT file', 'app.drop2': 'or click to select',
+    'app.paste': 'Paste your points here
+Format: P,X,Y,Z,Code
+
+1,1000.000,1000.000,52.340,EX
+2,1010.000,1001.200,52.180,EX',
+    'cfg.title': 'Settings', 'cfg.interval': 'Contour interval (m)', 'cfg.major': 'Major contours (m)',
+    'cfg.contours': 'Contour lines', 'cfg.preview': 'Preview', 'cfg.numbers': 'Point numbers',
+    'cfg.symbols': 'Symbols', 'cfg.btn': 'Generate DXF &rarr;',
+    'prev.title': 'Preview',
+    'res.sub': 'Ready to open in AutoCAD, Civil 3D or BricsCAD',
+    'res.dxf': '&#11015; Download DXF', 'res.report': '&#128196; Report TXT',
+    'how.label': '// How it works', 'how.title': 'Three steps. Instant results.',
+    'how.sub': 'No installs, no servers, no complications.',
+    'how.s1t': 'Upload the file', 'how.s1d': 'Export points from your total station or GPS in P,X,Y,Z,Code format. Drag and drop or paste directly.',
+    'how.s2t': 'Preview and configure', 'how.s2d': 'See your points on screen before generating. Adjust contour interval, symbols and numbering.',
+    'how.s3t': 'Download DXF + Report', 'how.s3d': 'Full DXF with layers, contour lines and symbology. Detailed report with all points.',
+    'price.label': '// Pricing', 'price.title': 'Simple and transparent', 'price.sub': 'No surprises. Cancel anytime.',
+    'plan1.name': 'Free', 'plan.mo': '/ month', 'plan1.desc': 'To get started',
+    'plan1.f1': '3 files per month', 'plan1.f2': 'Up to 500 points', 'plan1.f3': 'Predefined codes', 'plan1.f4': 'Custom codes', 'plan1.f5': 'Detailed report',
+    'plan1.btn': 'Get started free',
+    'plan2.badge': 'Popular', 'plan2.name': 'Pro', 'plan2.desc': 'For individual surveyors',
+    'plan2.f1': 'Unlimited files', 'plan2.f2': 'Unlimited points', 'plan2.f3': 'Custom codes', 'plan2.f4': 'Batch export', 'plan2.f5': 'Detailed report',
+    'plan2.btn': 'Subscribe Pro',
+    'plan3.name': 'Enterprise', 'plan3.desc': 'For offices and teams',
+    'plan3.f1': 'Everything in Pro', 'plan3.f2': 'Up to 5 users', 'plan3.f3': 'Shared templates', 'plan3.f4': 'Integration API', 'plan3.f5': 'Priority support',
+    'plan3.btn': 'Contact us',
+    'faq.title': 'FAQ',
+    'faq.q1': 'What file format should I use?', 'faq.a1': 'The standard format is P,X,Y,Z,Code — one point per line. Comma or semicolon separator. Compatible with exports from most total stations and field software.',
+    'faq.q2': 'Can I use my own codes?', 'faq.a2': 'Yes, on the Pro and Enterprise plans you can fully define your code table — name, type (line/symbol), layer, color and connection rules.',
+    'faq.q3': 'Is the generated DXF compatible with Civil 3D?', 'faq.a3': 'Yes. The generated file is DXF R2010, compatible with AutoCAD, Civil 3D, BricsCAD and any software that reads DXF/DWG.',
+    'faq.q4': 'Is it possible to generate DWG?', 'faq.a4': 'DWG is a proprietary Autodesk format. We generate DXF R2010 which AutoCAD opens and saves as DWG natively — the result is equivalent.',
+    'faq.q5': 'Is my data stored on your servers?', 'faq.a5': 'No. Everything runs locally in your browser — no files are sent to any server. Complete privacy for your survey data.',
+    'faq.q6': 'Can I cancel at any time?', 'faq.a6': 'Yes, no contracts or commitments. Cancel in your account settings and access continues until the end of the paid period.',
+    'footer.terms': 'Terms', 'footer.privacy': 'Privacy', 'footer.contact': 'Contact',
+    'modal.name': 'Name', 'modal.email': 'Email', 'modal.pass': 'Password',
+    'modal.continue': 'Continue', 'modal.cancel': 'Cancel',
+    'modal.signup.title': 'Create account', 'modal.signup.desc': 'Get started free, no credit card required.',
+    'modal.contact.title': 'Enterprise Contact', 'modal.contact.desc': 'Tell us about your team.',
+    'prog.1': 'Reading points...', 'prog.2': 'Grouping by code...', 'prog.3': 'Triangulating surface (Delaunay)...',
+    'prog.4': 'Generating lines and symbols...', 'prog.5': 'Calculating contour lines...', 'prog.6': 'Writing DXF...',
+    'prog.err': 'Error: no valid points found.',
+    'res.msg': 'DXF generated successfully',
+    'stat.points': 'Points', 'stat.codes': 'Codes', 'stat.contours': 'Contour lines',
+    'points.detected': 'points detected',
+    'fmt.label': 'Column order / Input format',
+    'fmt.pxyz': 'East · North (most common)',
+    'fmt.pnez': 'North · East (Trimble / some Leica)',
+    'fmt.penz': 'East · North explicit',
+    'fmt.pzxy': 'Elevation first (some older formats)'
+  },
+  pt: {
+    'nav.how': 'Como funciona', 'nav.pricing': 'Preços', 'nav.faq': 'FAQ', 'nav.signup': 'Criar conta',
+    'hero.badge': 'Field to Finish Automático',
+    'hero.h1a': 'Do levantamento ao', 'hero.h1b': 'DXF pronto', 'hero.h1c': 'em segundos',
+    'hero.sub': 'Carrega o teu ficheiro TXT, configura os códigos uma vez, e descarrega o DXF completo com layers, símbolos e curvas de nível.',
+    'hero.cta1': '&#9654; Experimentar grátis', 'hero.cta2': 'Ver como funciona',
+    'hero.stat1': 'Códigos suportados', 'hero.stat2': 'R2010 compatível', 'hero.stat3': 'Processado localmente',
+    'app.title': 'Gerar DXF', 'app.tab1': '&#128193; Ficheiro TXT', 'app.tab2': '&#128203; Colar texto',
+    'app.drop1': 'Arrasta o ficheiro TXT', 'app.drop2': 'ou clica para selecionar',
+    'app.paste': 'Cola aqui os teus pontos
+Formato: P,X,Y,Z,Código
+
+1,1000.000,1000.000,52.340,EX
+2,1010.000,1001.200,52.180,EX',
+    'cfg.title': 'Configuração', 'cfg.interval': 'Intervalo curvas (m)', 'cfg.major': 'Curvas mestras (m)',
+    'cfg.contours': 'Curvas de nível', 'cfg.preview': 'Pré-visualização', 'cfg.numbers': 'Numeração pontos',
+    'cfg.symbols': 'Símbolos', 'cfg.btn': 'Gerar DXF &rarr;',
+    'prev.title': 'Pré-visualização',
+    'res.sub': 'Pronto para abrir no AutoCAD, Civil 3D ou BricsCAD',
+    'res.dxf': '&#11015; Descarregar DXF', 'res.report': '&#128196; Relatório TXT',
+    'how.label': '// Como funciona', 'how.title': 'Três passos. Resultado imediato.',
+    'how.sub': 'Sem instalações, sem servidores, sem complicações.',
+    'how.s1t': 'Carrega o ficheiro', 'how.s1d': 'Exporta os pontos da estação total ou GPS no formato P,X,Y,Z,Código. Arrasta ou cola diretamente.',
+    'how.s2t': 'Pré-visualiza e configura', 'how.s2d': 'Vê os pontos no ecrã antes de gerar. Ajusta intervalo de curvas, símbolos e numeração.',
+    'how.s3t': 'Descarrega DXF + Relatório', 'how.s3d': 'DXF completo com layers, curvas de nível e simbologia. Relatório detalhado com todos os pontos.',
+    'price.label': '// Preços', 'price.title': 'Simples e transparente', 'price.sub': 'Sem surpresas. Cancelas quando quiseres.',
+    'plan1.name': 'Gratuito', 'plan.mo': '/ mês', 'plan1.desc': 'Para experimentar',
+    'plan1.f1': '3 ficheiros por mês', 'plan1.f2': 'Até 500 pontos', 'plan1.f3': 'Códigos predefinidos', 'plan1.f4': 'Códigos personalizados', 'plan1.f5': 'Relatório detalhado',
+    'plan1.btn': 'Começar grátis',
+    'plan2.badge': 'Popular', 'plan2.name': 'Pro', 'plan2.desc': 'Para topógrafos individuais',
+    'plan2.f1': 'Ficheiros ilimitados', 'plan2.f2': 'Pontos ilimitados', 'plan2.f3': 'Códigos personalizados', 'plan2.f4': 'Exportação em lote', 'plan2.f5': 'Relatório detalhado',
+    'plan2.btn': 'Subscrever Pro',
+    'plan3.name': 'Empresa', 'plan3.desc': 'Para gabinetes e equipas',
+    'plan3.f1': 'Tudo do Pro', 'plan3.f2': 'Até 5 utilizadores', 'plan3.f3': 'Templates partilhados', 'plan3.f4': 'API de integração', 'plan3.f5': 'Suporte prioritário',
+    'plan3.btn': 'Contactar',
+    'faq.title': 'FAQ',
+    'faq.q1': 'Que formato de ficheiro devo usar?', 'faq.a1': 'O formato padrão é P,X,Y,Z,Código — um ponto por linha. Separador vírgula ou ponto-e-vírgula. Compatível com exportações da maioria das estações totais e software de campo.',
+    'faq.q2': 'Posso usar os meus próprios códigos?', 'faq.a2': 'Sim, no plano Pro e Empresa podes definir completamente a tua tabela de códigos — nome, tipo (linha/símbolo), layer, cor e regras de ligação.',
+    'faq.q3': 'O DXF gerado é compatível com Civil 3D?', 'faq.a3': 'Sim. O ficheiro gerado é DXF R2010, compatível com AutoCAD, Civil 3D, BricsCAD e qualquer software que leia DXF/DWG standard.',
+    'faq.q4': 'É possível gerar DWG?', 'faq.a4': 'O formato DWG é proprietário da Autodesk. Geramos DXF R2010 que o AutoCAD abre e guarda como DWG nativamente — o resultado é equivalente.',
+    'faq.q5': 'Os meus dados ficam guardados nos vossos servidores?', 'faq.a5': 'Não. Tudo corre localmente no teu browser — nenhum ficheiro é enviado para servidores. Total privacidade dos teus dados de levantamento.',
+    'faq.q6': 'Posso cancelar a qualquer momento?', 'faq.a6': 'Sim, sem contratos nem permanência. Cancelas nas definições da conta e o acesso mantém-se até ao fim do período pago.',
+    'footer.terms': 'Termos', 'footer.privacy': 'Privacidade', 'footer.contact': 'Contacto',
+    'modal.name': 'Nome', 'modal.email': 'Email', 'modal.pass': 'Password',
+    'modal.continue': 'Continuar', 'modal.cancel': 'Cancelar',
+    'modal.signup.title': 'Criar conta', 'modal.signup.desc': 'Começa grátis, sem cartão de crédito.',
+    'modal.contact.title': 'Contacto Empresa', 'modal.contact.desc': 'Fala connosco sobre o plano Empresa.',
+    'prog.1': 'A ler pontos...', 'prog.2': 'A agrupar por código...', 'prog.3': 'A triangular superfície (Delaunay)...',
+    'prog.4': 'A gerar linhas e símbolos...', 'prog.5': 'A calcular curvas de nível...', 'prog.6': 'A escrever DXF...',
+    'prog.err': 'Erro: nenhum ponto válido encontrado.',
+    'res.msg': 'DXF gerado com sucesso',
+    'stat.points': 'Pontos', 'stat.codes': 'Códigos', 'stat.contours': 'Curvas de nível',
+    'points.detected': 'pontos detectados',
+    'fmt.label': 'Ordem das colunas / Formato de entrada',
+    'fmt.pxyz': 'Este · Norte (mais comum)',
+    'fmt.pnez': 'Norte · Este (Trimble / alguns Leica)',
+    'fmt.penz': 'Este · Norte explícito',
+    'fmt.pzxy': 'Cota primeiro (alguns formatos antigos)'
+  }
+};
+
+var currentLang = 'en';
+
+function t(key) { return LANGS[currentLang][key] || LANGS['en'][key] || key; }
+
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    el.innerHTML = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+  });
+  document.getElementById('langBtn').textContent = currentLang === 'en' ? 'PT' : 'EN';
+  document.getElementById('htmlRoot').lang = currentLang;
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'pt' : 'en';
+  applyLang();
+}
+
+// Init on load
+applyLang();
+
+
+// ═══════════════════════════════════════════
+// TABELA DE CODIGOS COMPLETA
+// ═══════════════════════════════════════════
+var CODIGOS = {
+  // LINHAS
+  "EX":  {tipo:"linha",         layer:"EIXO_ESTRADA",  cor:3,  desc:"Eixo de estrada"},
+  "BE":  {tipo:"linha",         layer:"BERMAS",         cor:2,  desc:"Berma de estrada"},
+  "MN":  {tipo:"linha",         layer:"MUROS",          cor:1,  desc:"Muro"},
+  "MR2": {tipo:"linha",         layer:"MUROS",          cor:1,  desc:"Muro de suporte"},
+  "VL":  {tipo:"linha",         layer:"VALAS",          cor:4,  desc:"Vala / Rego"},
+  "CH":  {tipo:"linha",         layer:"CAMINHOS",       cor:30, desc:"Caminho"},
+  "ED":  {tipo:"linha",         layer:"EDIFICIOS",      cor:6,  desc:"Edificio"},
+  "LT":  {tipo:"linha",         layer:"LOTES",          cor:5,  desc:"Limite de lote"},
+  "LC":  {tipo:"linha",         layer:"LINHAS_AGUA",    cor:4,  desc:"Linha de agua"},
+  "RB":  {tipo:"linha",         layer:"RIBEIROS",       cor:4,  desc:"Ribeiro"},
+  "CV":  {tipo:"linha",         layer:"CAMINHOS_VEG",   cor:62, desc:"Caminho vegetacao"},
+  "MT":  {tipo:"linha",         layer:"MUROS_TIJOLO",   cor:1,  desc:"Muro de tijolo"},
+  "SC":  {tipo:"linha",         layer:"SOCALCOS",       cor:30, desc:"Socalco / Talude"},
+  "TL":  {tipo:"linha",         layer:"TALUDES",        cor:30, desc:"Talude"},
+  "VD":  {tipo:"linha",         layer:"VALETAS",        cor:4,  desc:"Valeta de estrada"},
+  "PS":  {tipo:"linha",         layer:"PASSAGENS",      cor:7,  desc:"Passagem / Pontao"},
+  "MU":  {tipo:"linha",         layer:"MUROS",          cor:1,  desc:"Muro urbano"},
+  "CM":  {tipo:"linha",         layer:"CAMINHOS",       cor:30, desc:"Caminho municipal"},
+  "EP":  {tipo:"linha",         layer:"ESTRADAS",       cor:3,  desc:"Estrada principal"},
+  "ES":  {tipo:"linha",         layer:"ESTRADAS",       cor:3,  desc:"Estrada secundaria"},
+  // SIMBOLOS
+  "AR":  {tipo:"simbolo",       layer:"ARVORES",        cor:3,  desc:"Arvore"},
+  "AR1": {tipo:"simbolo",       layer:"ARVORES",        cor:3,  desc:"Arvore isolada"},
+  "ARB": {tipo:"simbolo",       layer:"ARBUSTOS",       cor:62, desc:"Arbusto"},
+  "CX":  {tipo:"simbolo",       layer:"CAIXAS",         cor:7,  desc:"Caixa (generico)"},
+  "CXE": {tipo:"simbolo",       layer:"CAIXAS_ELEC",    cor:2,  desc:"Caixa electrica"},
+  "CXS": {tipo:"simbolo",       layer:"CAIXAS_SAN",     cor:1,  desc:"Caixa saneamento"},
+  "CXA": {tipo:"simbolo",       layer:"CAIXAS_AGUA",    cor:4,  desc:"Caixa de agua"},
+  "CXT": {tipo:"simbolo",       layer:"CAIXAS_TELE",    cor:5,  desc:"Caixa telecomunicacoes"},
+  "CXG": {tipo:"simbolo",       layer:"CAIXAS_GAS",     cor:2,  desc:"Caixa gas"},
+  "PE":  {tipo:"simbolo",       layer:"POSTES_ELEC",    cor:2,  desc:"Poste electrico"},
+  "PH":  {tipo:"simbolo",       layer:"POSTES",         cor:2,  desc:"Poste (generico)"},
+  "PT2": {tipo:"simbolo",       layer:"POSTES_TELE",    cor:5,  desc:"Poste telecomunicacoes"},
+  "BC":  {tipo:"simbolo",       layer:"BOCAS_INCEND",   cor:1,  desc:"Boca de incendio"},
+  "MR":  {tipo:"simbolo",       layer:"MARCOS",         cor:7,  desc:"Marco geodesico"},
+  "PZ":  {tipo:"simbolo",       layer:"POCOS",          cor:4,  desc:"Poco"},
+  "FU":  {tipo:"simbolo",       layer:"FUROS",          cor:4,  desc:"Furo"},
+  "HI":  {tipo:"simbolo",       layer:"HIDRANTES",      cor:1,  desc:"Hidrante"},
+  "SR":  {tipo:"simbolo",       layer:"SUMIDOUROS",     cor:1,  desc:"Sumidouro"},
+  "VV":  {tipo:"simbolo",       layer:"VALVULAS",       cor:4,  desc:"Valvula"},
+  "CT":  {tipo:"simbolo",       layer:"CONTADORES",     cor:7,  desc:"Contador"},
+  "SN":  {tipo:"simbolo",       layer:"SINAIS",         cor:2,  desc:"Sinal de transito"},
+  "SM":  {tipo:"simbolo",       layer:"SEMAFOROS",      cor:2,  desc:"Semaforo"},
+  "LM":  {tipo:"simbolo",       layer:"LUMINARIAS",     cor:2,  desc:"Luminaria"},
+  "BN":  {tipo:"simbolo",       layer:"BANCOS",         cor:7,  desc:"Banco / Mobiliario"},
+  "PP":  {tipo:"simbolo",       layer:"PAPELEIRAS",     cor:7,  desc:"Papeleira"},
+  // LINHA + SIMBOLO
+  "GU":  {tipo:"linha+simbolo", layer:"GUARDAS",        cor:7,  desc:"Guarda / Rail"},
+  "CE":  {tipo:"linha+simbolo", layer:"CERCAS",         cor:30, desc:"Cerca / Vedacao"},
+  "SE":  {tipo:"linha+simbolo", layer:"SEBES",          cor:62, desc:"Sebe"},
+  // PONTOS COTADOS
+  "PT":  {tipo:"simbolo",       layer:"PONTOS_COTA",    cor:7,  desc:"Ponto cotado"},
+  "TC":  {tipo:"simbolo",       layer:"TERRENO",        cor:7,  desc:"Ponto de terreno"},
+  "TP":  {tipo:"simbolo",       layer:"TERRENO",        cor:7,  desc:"Terreno pavimentado"},
+  "TN":  {tipo:"simbolo",       layer:"TERRENO",        cor:7,  desc:"Terreno natural"}
+};
+
+var RAIO = 0.3;
+var _dxfTexto = null;
+var _relatorio = null;
+var _stats = null;
+
+// ═══════════════════════════════════════════
+// LEITURA DE PONTOS
+// ═══════════════════════════════════════════
+function getColFormat() {
+  var sel = document.querySelector('input[name="colFormat"]:checked');
+  return sel ? sel.value : 'PXYZC';
+}
+
+function lerPontos(txt) {
+  var pontos = [];
+  var fmt = getColFormat();
+  var linhas = txt.split('\n');
+  for (var i = 0; i < linhas.length; i++) {
+    var linha = linhas[i].trim();
+    if (!linha || linha.charAt(0) === '#') continue;
+    var p = linha.replace(/;/g, ',').split(',');
+    if (p.length < 5) continue;
+    var num, x, y, z, cod;
+    num = p[0].trim();
+    // Interpret columns based on selected format
+    // PXYZC: P=0, X(Este)=1, Y(Norte)=2, Z=3, Code=4
+    // PNEZC: P=0, N(Norte)=1, E(Este)=2, Z=3, Code=4  → swap x/y
+    // PENZC: P=0, E(Este)=1, N(Norte)=2, Z=3, Code=4  → same as PXYZC
+    // PZXYC: P=0, Z=1, X=2, Y=3, Code=4
+    if (fmt === 'PNEZC') {
+      // North first → Y=col1, X=col2
+      y = parseFloat(p[1]); x = parseFloat(p[2]); z = parseFloat(p[3]); cod = p[4].trim().toUpperCase();
+    } else if (fmt === 'PZXYC') {
+      // Z first
+      z = parseFloat(p[1]); x = parseFloat(p[2]); y = parseFloat(p[3]); cod = p[4].trim().toUpperCase();
+    } else {
+      // PXYZC or PENZC — X=col1, Y=col2
+      x = parseFloat(p[1]); y = parseFloat(p[2]); z = parseFloat(p[3]); cod = p[4].trim().toUpperCase();
+    }
+    if (isNaN(x) || isNaN(y) || isNaN(z)) continue;
+    pontos.push({p: num, x: x, y: y, z: z, cod: cod});
+  }
+  return pontos;
+}
+
+// ═══════════════════════════════════════════
+// PRE-VISUALIZACAO 2D
+// ═══════════════════════════════════════════
+var COR_CANVAS = {
+  1: '#ff4444', 2: '#f0c040', 3: '#44ff44', 4: '#44ffff',
+  5: '#4444ff', 6: '#ff44ff', 7: '#ffffff', 30: '#ff8800',
+  62: '#88aa44', 252: '#aaaaaa'
+};
+
+function desenharPreview(pontos) {
+  var canvas = document.getElementById('previewCanvas');
+  var wrap = document.getElementById('previewWrap');
+  wrap.style.display = 'block';
+  var W = canvas.offsetWidth || 700;
+  canvas.width = W;
+  canvas.height = 300;
+  var ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#0a0b0d';
+  ctx.fillRect(0, 0, W, 300);
+
+  if (!pontos.length) return;
+
+  var xs = pontos.map(function(p){return p.x;});
+  var ys = pontos.map(function(p){return p.y;});
+  var xmin = Math.min.apply(null,xs), xmax = Math.max.apply(null,xs);
+  var ymin = Math.min.apply(null,ys), ymax = Math.max.apply(null,ys);
+  var pad = 20;
+  var scaleX = (W - pad*2) / (xmax - xmin || 1);
+  var scaleY = (300 - pad*2) / (ymax - ymin || 1);
+  var scale = Math.min(scaleX, scaleY);
+
+  function tx(x) { return pad + (x - xmin) * scale; }
+  function ty(y) { return 300 - pad - (y - ymin) * scale; }
+
+  // Agrupar por codigo
+  var porCod = {};
+  for (var i = 0; i < pontos.length; i++) {
+    var cod = pontos[i].cod;
+    if (!porCod[cod]) porCod[cod] = [];
+    porCod[cod].push(pontos[i]);
+  }
+
+  // Linhas
+  for (var cod in porCod) {
+    var info = CODIGOS[cod];
+    if (!info || info.tipo.indexOf('linha') === -1) continue;
+    var pts = porCod[cod];
+    if (pts.length < 2) continue;
+    var cor = COR_CANVAS[info.cor] || '#888';
+    ctx.beginPath();
+    ctx.strokeStyle = cor;
+    ctx.lineWidth = 1.5;
+    ctx.moveTo(tx(pts[0].x), ty(pts[0].y));
+    for (var i = 1; i < pts.length; i++) ctx.lineTo(tx(pts[i].x), ty(pts[i].y));
+    ctx.stroke();
+  }
+
+  // Pontos
+  for (var i = 0; i < pontos.length; i++) {
+    var p = pontos[i];
+    var info = CODIGOS[p.cod];
+    var cor = info ? (COR_CANVAS[info.cor] || '#888') : '#666';
+    ctx.beginPath();
+    ctx.fillStyle = cor;
+    ctx.arc(tx(p.x), ty(p.y), 2.5, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  // Legenda
+  var legend = document.getElementById('previewLegend');
+  legend.innerHTML = '';
+  var codsVistos = {};
+  for (var cod in porCod) {
+    if (codsVistos[cod]) continue;
+    codsVistos[cod] = true;
+    var info = CODIGOS[cod];
+    var cor = info ? (COR_CANVAS[info.cor] || '#888') : '#666';
+    var desc = info ? info.desc : cod;
+    legend.innerHTML += '<span class="legend-item"><span class="legend-dot" style="background:'+cor+'"></span>'+cod+' — '+desc+' ('+porCod[cod].length+')</span>';
+  }
+}
+
+// ═══════════════════════════════════════════
+// TRIANGULACAO DELAUNAY
+// ═══════════════════════════════════════════
+function delaunay(pontos) {
+  var n = pontos.length;
+  if (n < 3) return [];
+
+  // Super-triangulo
+  var xmin = Infinity, xmax = -Infinity, ymin = Infinity, ymax = -Infinity;
+  for (var i = 0; i < n; i++) {
+    if (pontos[i].x < xmin) xmin = pontos[i].x;
+    if (pontos[i].x > xmax) xmax = pontos[i].x;
+    if (pontos[i].y < ymin) ymin = pontos[i].y;
+    if (pontos[i].y > ymax) ymax = pontos[i].y;
+  }
+  var dx = xmax - xmin, dy = ymax - ymin;
+  var dmax = Math.max(dx, dy) * 2;
+  var cx = (xmin + xmax) / 2, cy = (ymin + ymax) / 2;
+  var st = [
+    {x: cx - dmax*2, y: cy - dmax, z: 0},
+    {x: cx,          y: cy + dmax*2, z: 0},
+    {x: cx + dmax*2, y: cy - dmax, z: 0}
+  ];
+  var pts = pontos.concat(st);
+  var tris = [{a: n, b: n+1, c: n+2}];
+
+  for (var i = 0; i < n; i++) {
+    var p = pts[i];
+    var edges = [];
+    var newTris = [];
+    for (var t = 0; t < tris.length; t++) {
+      var tri = tris[t];
+      var pa = pts[tri.a], pb = pts[tri.b], pc = pts[tri.c];
+      if (inCircle(pa, pb, pc, p)) {
+        edges.push([tri.a, tri.b]);
+        edges.push([tri.b, tri.c]);
+        edges.push([tri.c, tri.a]);
+      } else {
+        newTris.push(tri);
+      }
+    }
+    // Remover arestas duplicadas
+    var unique = [];
+    for (var e = 0; e < edges.length; e++) {
+      var dup = false;
+      for (var f = 0; f < edges.length; f++) {
+        if (e !== f && edges[e][0] === edges[f][1] && edges[e][1] === edges[f][0]) { dup = true; break; }
+      }
+      if (!dup) unique.push(edges[e]);
+    }
+    for (var e = 0; e < unique.length; e++) {
+      newTris.push({a: unique[e][0], b: unique[e][1], c: i});
+    }
+    tris = newTris;
+  }
+
+  // Remover triangulos com vertices do super-triangulo
+  var result = [];
+  for (var t = 0; t < tris.length; t++) {
+    var tri = tris[t];
+    if (tri.a < n && tri.b < n && tri.c < n) {
+      result.push([pts[tri.a], pts[tri.b], pts[tri.c]]);
+    }
+  }
+  return result;
+}
+
+function inCircle(a, b, c, p) {
+  var ax = a.x - p.x, ay = a.y - p.y;
+  var bx = b.x - p.x, by = b.y - p.y;
+  var cx = c.x - p.x, cy = c.y - p.y;
+  return (ax*ax + ay*ay) * (bx*cy - by*cx)
+       - (bx*bx + by*by) * (ax*cy - ay*cx)
+       + (cx*cx + cy*cy) * (ax*by - ay*bx) > 0;
+}
+
+// ═══════════════════════════════════════════
+// GERADOR DXF
+// ═══════════════════════════════════════════
+function gerarDXFTexto(pontos, cfg) {
+  var layers = {};
+  var ents = [];
+
+  function addLayer(name, cor) { if (!layers[name]) layers[name] = cor; }
+
+  function polyline3d(pts, layer, cor) {
+    addLayer(layer, cor);
+    var s = '0\nPOLYLINE\n8\n'+layer+'\n62\n'+cor+'\n66\n1\n70\n8\n';
+    for (var i = 0; i < pts.length; i++)
+      s += '0\nVERTEX\n8\n'+layer+'\n10\n'+pts[i][0].toFixed(3)+'\n20\n'+pts[i][1].toFixed(3)+'\n30\n'+pts[i][2].toFixed(3)+'\n70\n32\n';
+    s += '0\nSEQEND\n8\n'+layer;
+    return s;
+  }
+
+  function circle(x, y, r, layer, cor) {
+    addLayer(layer, cor);
+    return '0\nCIRCLE\n8\n'+layer+'\n62\n'+cor+'\n10\n'+x.toFixed(3)+'\n20\n'+y.toFixed(3)+'\n30\n0.000\n40\n'+r.toFixed(3);
+  }
+
+  function text(t, x, y, h, layer, cor) {
+    addLayer(layer, cor);
+    return '0\nTEXT\n8\n'+layer+'\n62\n'+cor+'\n10\n'+x.toFixed(3)+'\n20\n'+y.toFixed(3)+'\n30\n0.000\n40\n'+h.toFixed(3)+'\n1\n'+t;
+  }
+
+  // Agrupar por codigo
+  var porCod = {};
+  for (var i = 0; i < pontos.length; i++) {
+    var cod = pontos[i].cod;
+    if (!porCod[cod]) porCod[cod] = [];
+    porCod[cod].push(pontos[i]);
+  }
+
+  // LINHAS
+  for (var cod in porCod) {
+    var info = CODIGOS[cod];
+    if (!info || info.tipo.indexOf('linha') === -1) continue;
+    var pts = porCod[cod];
+    if (pts.length < 2) continue;
+    var verts = [];
+    for (var i = 0; i < pts.length; i++) verts.push([pts[i].x, pts[i].y, pts[i].z]);
+    ents.push(polyline3d(verts, info.layer, info.cor));
+  }
+
+  // SIMBOLOS
+  if (cfg.simbolos) {
+    for (var cod in porCod) {
+      var info = CODIGOS[cod];
+      if (!info || info.tipo.indexOf('simbolo') === -1) continue;
+      var pts = porCod[cod];
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i];
+        ents.push(circle(p.x, p.y, RAIO, info.layer, info.cor));
+        ents.push(text(cod+' '+p.z.toFixed(2), p.x+RAIO*1.2, p.y, RAIO*0.8, info.layer, info.cor));
+      }
+    }
+  }
+
+  // NUMERACAO
+  if (cfg.numeros) {
+    addLayer('PONTOS_NUM', 7);
+    for (var i = 0; i < pontos.length; i++) {
+      var p = pontos[i];
+      ents.push('0\nPOINT\n8\nPONTOS_NUM\n62\n7\n10\n'+p.x.toFixed(3)+'\n20\n'+p.y.toFixed(3)+'\n30\n'+p.z.toFixed(3));
+      ents.push(text(p.p, p.x+RAIO*0.3, p.y+RAIO*0.3, RAIO*0.6, 'PONTOS_NUM', 7));
+      ents.push(text(p.z.toFixed(3), p.x+RAIO*0.3, p.y-RAIO*0.8, RAIO*0.6, 'PONTOS_NUM', 252));
+    }
+  }
+
+  // CURVAS DE NIVEL com Delaunay real
+  if (cfg.curvas && pontos.length >= 4) {
+    var intervalo = cfg.intervalo;
+    var mestras = cfg.mestras;
+    addLayer('CURVAS_NIVEL', 30);
+    addLayer('CURVAS_MESTRAS', 1);
+
+    var tris = delaunay(pontos);
+    var zmin = Infinity, zmax = -Infinity;
+    for (var i = 0; i < pontos.length; i++) {
+      if (pontos[i].z < zmin) zmin = pontos[i].z;
+      if (pontos[i].z > zmax) zmax = pontos[i].z;
+    }
+    var z0 = Math.ceil(zmin / intervalo) * intervalo;
+    var nCurvas = 0;
+
+    for (var nivel = z0; nivel <= zmax + 0.001; nivel += intervalo) {
+      var mestra = Math.abs(nivel % mestras) < 0.001;
+      var layer = mestra ? 'CURVAS_MESTRAS' : 'CURVAS_NIVEL';
+      var cor = mestra ? 1 : 30;
+
+      for (var t = 0; t < tris.length; t++) {
+        var tri = tris[t];
+        var ptsCurva = [];
+        var arestas = [[0,1],[1,2],[2,0]];
+        for (var a = 0; a < 3; a++) {
+          var ia = arestas[a][0], ib = arestas[a][1];
+          var za = tri[ia].z, zb = tri[ib].z;
+          if ((za - nivel) * (zb - nivel) < 0) {
+            var tt = (nivel - za) / (zb - za);
+            ptsCurva.push([
+              tri[ia].x + tt*(tri[ib].x - tri[ia].x),
+              tri[ia].y + tt*(tri[ib].y - tri[ia].y),
+              nivel
+            ]);
+          }
+        }
+        if (ptsCurva.length === 2) {
+          ents.push(polyline3d(ptsCurva, layer, cor));
+          nCurvas++;
+        }
+      }
+    }
+    _stats.curvas = nCurvas;
+  }
+
+  // MONTAR DXF
+  var out = [];
+  out.push('0\nSECTION\n2\nHEADER\n9\n$ACADVER\n1\nAC1015\n9\n$INSUNITS\n70\n6\n0\nENDSEC');
+  out.push('0\nSECTION\n2\nTABLES\n0\nTABLE\n2\nLAYER\n70\n'+Object.keys(layers).length);
+  for (var name in layers)
+    out.push('0\nLAYER\n2\n'+name+'\n70\n0\n62\n'+layers[name]+'\n6\nCONTINUOUS');
+  out.push('0\nENDTAB\n0\nENDSEC');
+  out.push('0\nSECTION\n2\nENTITIES');
+  for (var i = 0; i < ents.length; i++) out.push(ents[i]);
+  out.push('0\nENDSEC\n0\nEOF');
+  return out.join('\n');
+}
+
+// ═══════════════════════════════════════════
+// RELATORIO
+// ═══════════════════════════════════════════
+function gerarRelatorio(pontos) {
+  var porCod = {};
+  for (var i = 0; i < pontos.length; i++) {
+    var cod = pontos[i].cod;
+    if (!porCod[cod]) porCod[cod] = [];
+    porCod[cod].push(pontos[i]);
+  }
+
+  var lines = [];
+  lines.push('='.repeat(60));
+  lines.push('  MSTOPOGRAFIA — RELATORIO DE LEVANTAMENTO');
+  lines.push('  Gerado em: ' + new Date().toLocaleString('pt-PT'));
+  lines.push('='.repeat(60));
+  lines.push('');
+  lines.push('RESUMO');
+  lines.push('-'.repeat(40));
+  lines.push('Total de pontos : ' + pontos.length);
+  lines.push('Codigos usados  : ' + Object.keys(porCod).length);
+
+  var zs = pontos.map(function(p){return p.z;});
+  lines.push('Cota minima     : ' + Math.min.apply(null,zs).toFixed(3) + ' m');
+  lines.push('Cota maxima     : ' + Math.max.apply(null,zs).toFixed(3) + ' m');
+  lines.push('');
+
+  lines.push('PONTOS POR CODIGO');
+  lines.push('-'.repeat(40));
+  for (var cod in porCod) {
+    var info = CODIGOS[cod];
+    var desc = info ? info.desc : 'Codigo desconhecido';
+    lines.push(cod.padEnd(6) + ' — ' + desc.padEnd(25) + porCod[cod].length + ' pontos');
+  }
+  lines.push('');
+
+  lines.push('LISTA COMPLETA DE PONTOS');
+  lines.push('-'.repeat(40));
+  lines.push('Num   Codigo   X              Y              Z');
+  lines.push('-'.repeat(60));
+  for (var i = 0; i < pontos.length; i++) {
+    var p = pontos[i];
+    lines.push(
+      p.p.padEnd(6) +
+      p.cod.padEnd(9) +
+      p.x.toFixed(3).padStart(14) + ' ' +
+      p.y.toFixed(3).padStart(14) + ' ' +
+      p.z.toFixed(3).padStart(10)
+    );
+  }
+  lines.push('');
+  lines.push('='.repeat(60));
+  lines.push('  MStopografia — mstopografia.pt');
+  lines.push('='.repeat(60));
+  return lines.join('\n');
+}
+
+// ═══════════════════════════════════════════
+// DOWNLOAD
+// ═══════════════════════════════════════════
+function downloadFicheiro(tipo) {
+  var conteudo = tipo === 'dxf' ? _dxfTexto : _relatorio;
+  var nome = tipo === 'dxf' ? 'resultado_mstopo.dxf' : 'relatorio_mstopo.txt';
+  if (!conteudo) return;
+  try {
+    var blob = new Blob([conteudo], {type: 'application/octet-stream'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = nome;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  } catch(e) {
+    var a = document.createElement('a');
+    a.href = 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(conteudo);
+    a.download = nome;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+}
+
+// ═══════════════════════════════════════════
+// UI
+// ═══════════════════════════════════════════
+function switchTab(tab) {
+  var isFile = (tab === 'file');
+  document.getElementById('tabFile').className = 'tab-btn' + (isFile ? ' active' : '');
+  document.getElementById('tabPaste').className = 'tab-btn' + (!isFile ? ' active' : '');
+  document.getElementById('panelFile').style.display = isFile ? 'block' : 'none';
+  document.getElementById('panelPaste').style.display = isFile ? 'none' : 'block';
+  document.getElementById('generateBtn').disabled = true;
+  document.getElementById('previewWrap').style.display = 'none';
+}
+
+document.getElementById('pasteArea').addEventListener('input', function() {
+  var linhas = this.value.split('\n').filter(function(l){ return l.trim() && l.charAt(0) !== '#'; });
+  var info = document.getElementById('pasteInfo');
+  if (linhas.length > 0) {
+    info.textContent = linhas.length + ' ' + t('points.detected');
+    document.getElementById('generateBtn').disabled = false;
+    // Preview ao colar
+    if (document.getElementById('cfgPreview').checked) {
+      var pts = lerPontos(this.value);
+      if (pts.length >= 2) desenharPreview(pts);
+    }
+  } else {
+    info.textContent = '';
+    document.getElementById('generateBtn').disabled = true;
+  }
+});
+
+function handleFile(input) {
+  var f = input.files[0];
+  if (!f) return;
+  document.getElementById('fileInfo').textContent = f.name;
+  document.getElementById('generateBtn').disabled = false;
+  if (document.getElementById('cfgPreview').checked) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var pts = lerPontos(e.target.result);
+      if (pts.length >= 2) desenharPreview(pts);
+    };
+    reader.readAsText(f);
+  }
+}
+
+var dropZone = document.getElementById('dropZone');
+dropZone.addEventListener('dragover', function(e){ e.preventDefault(); dropZone.style.borderColor='var(--accent)'; });
+dropZone.addEventListener('dragleave', function(){ dropZone.style.borderColor=''; });
+dropZone.addEventListener('drop', function(e){
+  e.preventDefault(); dropZone.style.borderColor='';
+  var f = e.dataTransfer.files[0];
+  if (f) { document.getElementById('fileInput').files = e.dataTransfer.files; handleFile({files:[f]}); }
+});
+
+function gerarDXF() {
+  var isPaste = document.getElementById('tabPaste').className.indexOf('active') !== -1;
+  var btn = document.getElementById('generateBtn');
+  var pw  = document.getElementById('progressWrap');
+  var pf  = document.getElementById('progressFill');
+  var pl  = document.getElementById('progressLog');
+  var rw  = document.getElementById('resultWrap');
+
+  btn.disabled = true;
+  pw.style.display = 'block';
+  rw.style.display = 'none';
+  pf.style.width = '0%';
+
+  var cfg = {
+    curvas:   document.getElementById('cfgContours').checked,
+    numeros:  document.getElementById('cfgNumbers').checked,
+    simbolos: document.getElementById('cfgSymbols').checked,
+    intervalo: parseFloat(document.getElementById('cfgInterval').value) || 1.0,
+    mestras:   parseFloat(document.getElementById('cfgMaster').value) || 5.0
+  };
+
+  function processar(txt) {
+    _stats = {curvas: 0};
+    var steps = [
+      [15, 'A ler pontos...'],
+      [30, 'A agrupar por codigo...'],
+      [50, 'A triangular superficie (Delaunay)...'],
+      [70, 'A gerar linhas e simbolos...'],
+      [85, 'A calcular curvas de nivel...'],
+      [100,'A escrever DXF...']
+    ];
+    var i = 0;
+    var anim = setInterval(function() {
+      if (i < steps.length) {
+        pf.style.width = steps[i][0] + '%';
+        pl.textContent = steps[i][1];
+        i++;
+      } else {
+        clearInterval(anim);
+        var pontos = lerPontos(txt);
+        if (pontos.length === 0) {
+          pl.textContent = 'Erro: nenhum ponto valido encontrado.';
+          btn.disabled = false;
+          return;
+        }
+
+        // Preview
+        if (cfg.preview !== false) desenharPreview(pontos);
+
+        // Gerar DXF
+        _dxfTexto = gerarDXFTexto(pontos, cfg);
+        _relatorio = gerarRelatorio(pontos);
+
+        // Stats
+        var porCod = {};
+        for (var j = 0; j < pontos.length; j++) {
+          porCod[pontos[j].cod] = (porCod[pontos[j].cod]||0)+1;
+        }
+        var zs = pontos.map(function(p){return p.z;});
+
+        setTimeout(function() {
+          pw.style.display = 'none';
+          rw.style.display = 'block';
+          document.getElementById('resultMsg').textContent = 'DXF gerado com sucesso — ' + pontos.length + ' pontos processados.';
+          document.getElementById('statsGrid').innerHTML =
+            '<div class="stat"><div class="stat-val">'+pontos.length+'</div><div class="stat-lbl">'+t('stat.points')+'</div></div>'+
+            '<div class="stat"><div class="stat-val">'+Object.keys(porCod).length+'</div><div class="stat-lbl">'+t('stat.codes')+'</div></div>'+
+            '<div class="stat"><div class="stat-val">'+_stats.curvas+'</div><div class="stat-lbl">'+t('stat.contours')+'</div></div>';
+          btn.disabled = false;
+        }, 300);
+      }
+    }, 280);
+  }
+
+  if (isPaste) {
+    processar(document.getElementById('pasteArea').value);
+  } else {
+    var f = document.getElementById('fileInput').files[0];
+    var reader = new FileReader();
+    reader.onload = function(e) { processar(e.target.result); };
+    reader.readAsText(f);
+  }
+}
+
+function toggleFaq(el) { el.classList.toggle('open'); }
+
+function openModal(mode) {
+  var title = mode === 'contact' ? t('modal.contact.title') : t('modal.signup.title');
+  var desc  = mode === 'contact' ? t('modal.contact.desc')  : t('modal.signup.desc');
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalDesc').textContent  = desc;
+  document.getElementById('mPass').style.display = mode === 'contact' ? 'none' : 'block';
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('show'); }
+function closeModalOutside(e) { if (e.target.id === 'modalOverlay') closeModal(); }
+function submitModal() {
+  var email = document.getElementById('mEmail').value;
+  if (!email) return;
+  alert((currentLang === 'pt' ? 'Obrigado! Em breve recebes confirmacao em ' : 'Thank you! Confirmation coming to ') + email);
+  closeModal();
+}
+
+
+
+</script>
+</body>
+</html>
